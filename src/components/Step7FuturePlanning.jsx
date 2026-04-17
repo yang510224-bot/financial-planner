@@ -226,9 +226,17 @@ export default function Step7FuturePlanning({ data }) {
               <div className="form-group" style={{ flex: '1 1 30%' }}>
                 <label className="form-label">預估年配息率 (%)</label>
                 <select className="form-input" value={params.dividendRate} onChange={e => updateParam('dividendRate', e.target.value)}>
+                  <option value="5">5%</option>
                   <option value="6">6%</option>
                   <option value="7">7%</option>
                   <option value="8">8%</option>
+                  <option value="9">9%</option>
+                  <option value="10">10%</option>
+                  <option value="11">11%</option>
+                  <option value="12">12%</option>
+                  <option value="13">13%</option>
+                  <option value="14">14%</option>
+                  <option value="15">15%</option>
                 </select>
               </div>
             </div>
