@@ -95,22 +95,13 @@ export default function Step2Assets({ data, updateData }) {
       {/* 2.2 定期存款/理財產品 */}
       <h3 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '8px', marginTop: '32px' }}>2.2 定期存款/理財產品</h3>
       <div className="flex gap-4" style={{ flexWrap: 'wrap' }}>
-        <div className="form-group" style={{ flex: '1 1 45%' }}>
+        <div className="form-group" style={{ flex: '1 1 100%' }}>
           <label className="form-label">金額 (萬元)</label>
           <input 
             type="number" 
             className="form-input" 
             value={data.savings?.amount || ""}
             onChange={(e) => updateData('savings', { ...data.savings, amount: e.target.value })}
-          />
-        </div>
-        <div className="form-group" style={{ flex: '1 1 45%' }}>
-          <label className="form-label">獲取時間</label>
-          <input 
-            type="date" 
-            className="form-input" 
-            value={data.savings?.date || ""}
-            onChange={(e) => updateData('savings', { ...data.savings, date: e.target.value })}
           />
         </div>
       </div>
@@ -281,13 +272,9 @@ export default function Step2Assets({ data, updateData }) {
 
         {data.insurance?.hasInsurance && (
           <div className="flex gap-4" style={{ flexWrap: 'wrap', marginTop: '16px' }}>
-            <div className="form-group" style={{ flex: '1 1 45%' }}>
+            <div className="form-group" style={{ flex: '1 1 100%' }}>
               <label className="form-label">保單現值總額 (萬元)</label>
               <input type="number" className="form-input" value={data.insurance.amount} onChange={e => updateData('insurance', { ...data.insurance, amount: e.target.value })} />
-            </div>
-            <div className="form-group" style={{ flex: '1 1 45%' }}>
-              <label className="form-label">獲取時間</label>
-              <input type="date" className="form-input" value={data.insurance.date} onChange={e => updateData('insurance', { ...data.insurance, date: e.target.value })} />
             </div>
           </div>
         )}
@@ -308,13 +295,9 @@ export default function Step2Assets({ data, updateData }) {
 
         {data.investments?.hasInvestments && (
           <div className="flex gap-4" style={{ flexWrap: 'wrap', marginTop: '16px' }}>
-            <div className="form-group" style={{ flex: '1 1 45%' }}>
+            <div className="form-group" style={{ flex: '1 1 100%' }}>
               <label className="form-label">投資部位總市值 (萬元)</label>
               <input type="number" className="form-input" value={data.investments.amount} onChange={e => updateData('investments', { ...data.investments, amount: e.target.value })} />
-            </div>
-            <div className="form-group" style={{ flex: '1 1 45%' }}>
-              <label className="form-label">獲取時間</label>
-              <input type="date" className="form-input" value={data.investments.date} onChange={e => updateData('investments', { ...data.investments, date: e.target.value })} />
             </div>
           </div>
         )}
