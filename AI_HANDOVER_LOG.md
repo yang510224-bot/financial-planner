@@ -56,6 +56,11 @@
 - **每次完成有效修改後，必須執行以下操作：**
   1. 將更動 Commit 並 Push 上 GitHub (`git push origin main`)。
   2. 通知使用者 Vercel 的更新狀態，或者在有需求時使用 Vercel CLI 直接部署。 
-- 目前設定好的乾淨正式網址為：`https://public-financial-planner.vercel.app` (請隨時檢查 Vercel Authentication 狀態)。
+- **【重大地雷警告】 關於 Vercel Alias (公開網址) 的綁定**：
+  - 目前設定好的乾淨正式網址為：`https://public-financial-planner.vercel.app`。
+  - 由於之前使用了 `vercel alias set` 將這個公開網址 **「綁死在特定的 Deployment ID」**，所以如果您後續只是單純 Push 到 GitHub 讓 Vercel 自動佈署，這個公開網址**並不會自動飄移到最新版**！
+  - **解決絕招**：每次若有實質前端代碼更動，必須執行完整的強制更新配方：
+    `npx vercel --prod --yes` (產生新的 production deployment)
+    接著執行：`npx vercel alias set <剛產生的新部署_URL> public-financial-planner.vercel.app` 來確保公開入口有跟著移動。
 
-**> 交棒完畢，繼續加油！**
+**> 交棒完畢，繼續加油！** 
