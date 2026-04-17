@@ -95,7 +95,7 @@ export default function Step2Assets({ data, updateData }) {
       {/* 2.2 定期存款/理財產品 */}
       <h3 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '8px', marginTop: '32px' }}>2.2 定期存款/理財產品</h3>
       <div className="flex gap-4" style={{ flexWrap: 'wrap' }}>
-        <div className="form-group" style={{ flex: '1 1 30%' }}>
+        <div className="form-group" style={{ flex: '1 1 45%' }}>
           <label className="form-label">金額 (萬元)</label>
           <input 
             type="number" 
@@ -104,16 +104,7 @@ export default function Step2Assets({ data, updateData }) {
             onChange={(e) => updateData('savings', { ...data.savings, amount: e.target.value })}
           />
         </div>
-        <div className="form-group" style={{ flex: '1 1 30%' }}>
-          <label className="form-label">配息率 (%)</label>
-          <input 
-            type="number" 
-            className="form-input" 
-            value={data.savings?.rate || ""}
-            onChange={(e) => updateData('savings', { ...data.savings, rate: e.target.value })}
-          />
-        </div>
-        <div className="form-group" style={{ flex: '1 1 30%' }}>
+        <div className="form-group" style={{ flex: '1 1 45%' }}>
           <label className="form-label">獲取時間</label>
           <input 
             type="date" 
@@ -275,6 +266,92 @@ export default function Step2Assets({ data, updateData }) {
           )}
         </div>
       ))}
+      {/* 新增項目 1: 保單現值 */}
+      <h3 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '8px', marginTop: '32px' }}>保單現值</h3>
+      <p className="text-aux" style={{ fontSize: '13px', marginBottom: '16px' }}>包括你購買的壽險、醫療險、投資型保單等所有保單的當前現金價值（解約金）</p>
+      
+      <div style={{ padding: '16px', border: '1px solid var(--border-color)', borderRadius: '8px', marginBottom: '16px', background: '#faf9f6' }}>
+        <div className="form-group">
+          <label className="form-label">是否有保單？</label>
+          <div className="flex gap-4">
+            <label><input type="radio" checked={!data.insurance?.hasInsurance} onChange={() => updateData('insurance', { ...data.insurance, hasInsurance: false })} /> 無</label>
+            <label><input type="radio" checked={data.insurance?.hasInsurance} onChange={() => updateData('insurance', { ...data.insurance, hasInsurance: true })} /> 有</label>
+          </div>
+        </div>
+
+        {data.insurance?.hasInsurance && (
+          <div className="flex gap-4" style={{ flexWrap: 'wrap', marginTop: '16px' }}>
+            <div className="form-group" style={{ flex: '1 1 45%' }}>
+              <label className="form-label">保單現值總額 (萬元)</label>
+              <input type="number" className="form-input" value={data.insurance.amount} onChange={e => updateData('insurance', { ...data.insurance, amount: e.target.value })} />
+            </div>
+            <div className="form-group" style={{ flex: '1 1 45%' }}>
+              <label className="form-label">獲取時間</label>
+              <input type="date" className="form-input" value={data.insurance.date} onChange={e => updateData('insurance', { ...data.insurance, date: e.target.value })} />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 新增項目 2: 投資部位 */}
+      <h3 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '8px', marginTop: '32px' }}>投資部位</h3>
+      <p className="text-aux" style={{ fontSize: '13px', marginBottom: '16px' }}>包括所有股票、基金、ETF、美股、加密等所有投資商品的當前總市值</p>
+
+      <div style={{ padding: '16px', border: '1px solid var(--border-color)', borderRadius: '8px', marginBottom: '16px', background: '#faf9f6' }}>
+        <div className="form-group">
+          <label className="form-label">是否有投資？（包括股票、基金、ETF、美股等）</label>
+          <div className="flex gap-4">
+            <label><input type="radio" checked={!data.investments?.hasInvestments} onChange={() => updateData('investments', { ...data.investments, hasInvestments: false })} /> 無</label>
+            <label><input type="radio" checked={data.investments?.hasInvestments} onChange={() => updateData('investments', { ...data.investments, hasInvestments: true })} /> 有</label>
+          </div>
+        </div>
+
+        {data.investments?.hasInvestments && (
+          <div className="flex gap-4" style={{ flexWrap: 'wrap', marginTop: '16px' }}>
+            <div className="form-group" style={{ flex: '1 1 45%' }}>
+              <label className="form-label">投資部位總市值 (萬元)</label>
+              <input type="number" className="form-input" value={data.investments.amount} onChange={e => updateData('investments', { ...data.investments, amount: e.target.value })} />
+            </div>
+            <div className="form-group" style={{ flex: '1 1 45%' }}>
+              <label className="form-label">獲取時間</label>
+              <input type="date" className="form-input" value={data.investments.date} onChange={e => updateData('investments', { ...data.investments, date: e.target.value })} />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 新增項目 3: 其他資產 */}
+      <h3 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '8px', marginTop: '32px' }}>其他資產</h3>
+      <p className="text-aux" style={{ fontSize: '13px', marginBottom: '16px' }}>土地、機車、應收帳款、收藏品等任何其他資產的總額</p>
+
+      <div style={{ padding: '16px', border: '1px solid var(--border-color)', borderRadius: '8px', marginBottom: '16px', background: '#faf9f6' }}>
+        <div className="form-group">
+          <label className="form-label">是否有其他資產？（土地、機車、應收帳款、收藏品等）</label>
+          <div className="flex gap-4">
+            <label><input type="radio" checked={!data.otherAssets?.hasOtherAssets} onChange={() => updateData('otherAssets', { ...data.otherAssets, hasOtherAssets: false })} /> 無</label>
+            <label><input type="radio" checked={data.otherAssets?.hasOtherAssets} onChange={() => updateData('otherAssets', { ...data.otherAssets, hasOtherAssets: true })} /> 有</label>
+          </div>
+        </div>
+
+        {data.otherAssets?.hasOtherAssets && (
+          <div style={{ marginTop: '16px' }}>
+            <div className="flex gap-4" style={{ flexWrap: 'wrap' }}>
+              <div className="form-group" style={{ flex: '1 1 45%' }}>
+                <label className="form-label">資產總額 (萬元)</label>
+                <input type="number" className="form-input" value={data.otherAssets.amount} onChange={e => updateData('otherAssets', { ...data.otherAssets, amount: e.target.value })} />
+              </div>
+              <div className="form-group" style={{ flex: '1 1 45%' }}>
+                <label className="form-label">獲取時間</label>
+                <input type="date" className="form-input" value={data.otherAssets.date} onChange={e => updateData('otherAssets', { ...data.otherAssets, date: e.target.value })} />
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="form-label">簡短說明（選填）</label>
+              <input type="text" className="form-input" placeholder="例如：台中農地、應收客戶帳款" value={data.otherAssets.description} onChange={e => updateData('otherAssets', { ...data.otherAssets, description: e.target.value })} />
+            </div>
+          </div>
+        )}
+      </div>
       
     </div>
   );

@@ -36,6 +36,18 @@ export default function Dashboard({ data }) {
       r.assetTotal += parseFloat(v.value || 0);
     });
 
+    if (data.assets.insurance?.hasInsurance) {
+      r.assetTotal += parseFloat(data.assets.insurance.amount || 0);
+    }
+    
+    if (data.assets.investments?.hasInvestments) {
+      r.assetTotal += parseFloat(data.assets.investments.amount || 0);
+    }
+
+    if (data.assets.otherAssets?.hasOtherAssets) {
+      r.assetTotal += parseFloat(data.assets.otherAssets.amount || 0);
+    }
+
     // --- Liabilities ---
     let mortgageExpenseTotal = 0;
     data.assets.properties.forEach(p => {
@@ -127,13 +139,16 @@ export default function Dashboard({ data }) {
           </h3>
           <ul style={{ listStyle: 'none', padding: 0 }}>
             <li>├─ 現金/活存: {report.cashStr.toFixed(2)} 萬</li>
-            <li>├─ 定期存款: {report.savingsStr.toFixed(2)} 萬 {(data.assets.savings.rate) ? `(年配${data.assets.savings.rate}%)` : ''}</li>
+            <li>├─ 定期存款: {report.savingsStr.toFixed(2)} 萬</li>
             {data.assets.properties.map((p, idx) => (
               <li key={idx}>├─ {p.name || '房產'}: {parseFloat(p.value||0).toFixed(2)} 萬</li>
             ))}
             {data.assets.vehicles.map((v, idx) => (
               <li key={idx}>├─ {v.name || '車子'}: {parseFloat(v.value||0).toFixed(2)} 萬</li>
             ))}
+            {data.assets.insurance?.hasInsurance && <li>├─ 保單現值: {parseFloat(data.assets.insurance.amount || 0).toFixed(2)} 萬</li>}
+            {data.assets.investments?.hasInvestments && <li>├─ 投資部位: {parseFloat(data.assets.investments.amount || 0).toFixed(2)} 萬</li>}
+            {data.assets.otherAssets?.hasOtherAssets && <li>├─ 其他資產: {parseFloat(data.assets.otherAssets.amount || 0).toFixed(2)} 萬 {data.assets.otherAssets.description ? `(${data.assets.otherAssets.description})` : ''}</li>}
           </ul>
         </div>
 

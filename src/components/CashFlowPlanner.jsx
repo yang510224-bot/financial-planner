@@ -14,10 +14,12 @@ const initialData = {
   gender: "",
   assets: {
     cash: "",
-    savings: { amount: "", rate: "", date: "" },
+    savings: { amount: "", date: "" },
     properties: [],
     vehicles: [],
-    other: []
+    insurance: { hasInsurance: false, amount: "", date: "" },
+    investments: { hasInvestments: false, amount: "", date: "" },
+    otherAssets: { hasOtherAssets: false, amount: "", description: "", date: "" }
   },
   liabilities: {
     personalLoans: [],
