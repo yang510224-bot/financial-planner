@@ -1,12 +1,24 @@
 "use client";
 
-import { useMemo } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import { calculatePMT, calculateInterestOnly } from '../utils/calculations';
 import { generateFinancialReport } from '../utils/reportGenerator';
 
 export default function Dashboard({ data, startSimulation }) {
-  
   const report = useMemo(() => generateFinancialReport(data), [data]);
+
+  const hasSaved = useRef(false);
+
+  useEffect(() => {
+    if (!hasSaved.current) {
+      hasSaved.current = true;
+      fetch('/api/records', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, reportSummary: { netAsset: report.netAsset, netCashFlow: report.netCashFlow }})
+      }).catch(err => console.error('Failed to save record:', err));
+    }
+  }, [data, report]);
 
   const dateObj = new Date();
   const yearMonth = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月`;
