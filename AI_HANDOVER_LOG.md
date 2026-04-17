@@ -52,4 +52,10 @@
 - 測試腳本 `generate_table.mjs` 現存於專案內可用作保單除錯與印表。
 - 專案程式碼已加入 Git 打包，若要修改或除錯 `calculations.js`，請務必先用 `test.mjs` 或 `generate_table.mjs` 在終端機跑一次 10 年現金流預估以防踩壞精算邏輯。
 
+## ⚠️ 接手 AI 的強制紀律 (Mandatory Rules)
+- **每次完成有效修改後，必須執行以下操作：**
+  1. 將更動 Commit 並 Push 上 GitHub (`git push origin main`)。
+  2. 通知使用者 Vercel 的更新狀態，或者在有需求時使用 Vercel CLI 直接部署。 
+- 目前設定好的乾淨正式網址為：`https://public-financial-planner.vercel.app` (請隨時檢查 Vercel Authentication 狀態)。
+
 **> 交棒完畢，繼續加油！**
