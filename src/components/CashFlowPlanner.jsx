@@ -7,6 +7,7 @@ import Step3Liabilities from './Step3Liabilities';
 import Step4Income from './Step4Income';
 import Step5Expenses from './Step5Expenses';
 import Dashboard from './Dashboard';
+import Step7FuturePlanning from './Step7FuturePlanning';
 
 const initialData = {
   name: "",
@@ -62,7 +63,8 @@ export default function CashFlowPlanner() {
     "負債清單",
     "月收入",
     "月支出",
-    "現況儀表板"
+    "現況儀表板",
+    "未來規劃"
   ];
 
   return (
@@ -102,7 +104,8 @@ export default function CashFlowPlanner() {
         {currentStep === 3 && <Step3Liabilities data={data.liabilities} updateData={(field, val) => updateData('liabilities', field, val)} />}
         {currentStep === 4 && <Step4Income data={data.income} updateData={(field, val) => updateData('income', field, val)} />}
         {currentStep === 5 && <Step5Expenses data={data.expenses} liabilities={data.liabilities} assets={data.assets} updateData={(field, val) => updateData('expenses', field, val)} />}
-        {currentStep === 6 && <Dashboard data={data} />}
+        {currentStep === 6 && <Dashboard data={data} startSimulation={() => setCurrentStep(7)} />}
+        {currentStep === 7 && <Step7FuturePlanning data={data} />}
       </div>
 
       <div className="flex justify-between" style={{ marginTop: '24px' }}>
@@ -112,7 +115,7 @@ export default function CashFlowPlanner() {
           </button>
         )}
         <div style={{ flex: 1 }}></div>
-        {currentStep < 6 && (
+        {currentStep < 7 && currentStep !== 6 && (
           <button className="btn" onClick={nextStep}>
             下一步
           </button>
