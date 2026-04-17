@@ -29,7 +29,7 @@ export default function Step2Assets({ data, updateData }) {
   const addPropertyLoan = (propIndex) => {
     const newProps = [...data.properties];
     newProps[propIndex].loans.push({ 
-      id: Date.now(), type: 'original', amount: "", rate: "", years: "", loanType: "本息攤還", startDate: "" 
+      id: Date.now(), type: 'original', amount: "", rate: "", years: "", months: "", loanType: "本息攤還", startDate: "" 
     });
     updateData('properties', newProps);
   };
@@ -49,7 +49,7 @@ export default function Step2Assets({ data, updateData }) {
   const addVehicle = () => {
     updateData('vehicles', [
       ...data.vehicles, 
-      { id: Date.now(), name: `車子${data.vehicles.length + 1}`, value: "", date: "", hasLoan: false, loan: { amount: "", rate: "", years: "", startDate: "" } }
+      { id: Date.now(), name: `車子${data.vehicles.length + 1}`, value: "", date: "", hasLoan: false, loan: { amount: "", rate: "", years: "", months: "", startDate: "" } }
     ]);
   };
 
@@ -151,7 +151,7 @@ export default function Step2Assets({ data, updateData }) {
                     </div>
                     
                     {prop.loans.map((loan, loanIndex) => {
-                      const pmt = loan.loanType === '本息攤還' ? calculatePMT(loan.amount, loan.rate, loan.years) : calculateInterestOnly(loan.amount, loan.rate);
+                      const pmt = loan.loanType === '本息攤還' ? calculatePMT(loan.amount, loan.rate, loan.years, loan.months) : calculateInterestOnly(loan.amount, loan.rate);
                       
                       return (
                         <div key={loan.id} style={{ borderBottom: loanIndex < prop.loans.length - 1 ? '1px dashed #ccc' : 'none', padding: '12px 0' }}>
@@ -173,9 +173,15 @@ export default function Step2Assets({ data, updateData }) {
                               <input type="number" className="form-input" style={{ padding: '8px' }} value={loan.rate} onChange={e => updatePropertyLoan(propIndex, loanIndex, 'rate', e.target.value)} />
                             </div>
                             {loan.loanType === '本息攤還' && (
-                              <div style={{ flex: '1 1 20%' }}>
-                                <label style={{ fontSize: '12px' }}>年限</label>
-                                <input type="number" className="form-input" style={{ padding: '8px' }} value={loan.years} onChange={e => updatePropertyLoan(propIndex, loanIndex, 'years', e.target.value)} />
+                              <div className="flex gap-1" style={{ flex: '1 1 30%' }}>
+                                <div style={{ flex: 1 }}>
+                                  <label style={{ fontSize: '12px' }}>還款年數</label>
+                                  <input type="number" className="form-input" style={{ padding: '8px' }} placeholder="年" value={loan.years} onChange={e => updatePropertyLoan(propIndex, loanIndex, 'years', e.target.value)} />
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                  <label style={{ fontSize: '12px' }}>剩餘月數</label>
+                                  <input type="number" className="form-input" style={{ padding: '8px' }} placeholder="月" value={loan.months || ''} onChange={e => updatePropertyLoan(propIndex, loanIndex, 'months', e.target.value)} />
+                                </div>
                               </div>
                             )}
                           </div>
@@ -243,13 +249,19 @@ export default function Step2Assets({ data, updateData }) {
                         <label style={{ fontSize: '12px' }}>利率(%)</label>
                         <input type="number" className="form-input" style={{ padding: '8px' }} value={veh.loan.rate} onChange={e => updateVehicleLoan(idx, 'rate', e.target.value)} />
                       </div>
-                      <div style={{ flex: '1 1 30%' }}>
-                        <label style={{ fontSize: '12px' }}>年限</label>
-                        <input type="number" className="form-input" style={{ padding: '8px' }} value={veh.loan.years} onChange={e => updateVehicleLoan(idx, 'years', e.target.value)} />
+                      <div className="flex gap-1" style={{ flex: '1 1 30%' }}>
+                        <div style={{ flex: 1 }}>
+                          <label style={{ fontSize: '12px' }}>還款年數</label>
+                          <input type="number" className="form-input" style={{ padding: '8px' }} placeholder="年" value={veh.loan.years} onChange={e => updateVehicleLoan(idx, 'years', e.target.value)} />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <label style={{ fontSize: '12px' }}>剩餘月數</label>
+                          <input type="number" className="form-input" style={{ padding: '8px' }} placeholder="月" value={veh.loan.months || ''} onChange={e => updateVehicleLoan(idx, 'months', e.target.value)} />
+                        </div>
                       </div>
                     </div>
                     <div style={{ marginTop: '8px', color: 'var(--danger-color)', fontWeight: 'bold' }}>
-                      月付: {calculatePMT(veh.loan.amount, veh.loan.rate, veh.loan.years).toFixed(4)} 萬
+                      月付: {calculatePMT(veh.loan.amount, veh.loan.rate, veh.loan.years, veh.loan.months).toFixed(4)} 萬
                     </div>
                  </div>
                )}

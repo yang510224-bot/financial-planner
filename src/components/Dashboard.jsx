@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from 'react';
+import { calculatePMT, calculateInterestOnly } from '../utils/calculations';
 import { generateFinancialReport } from '../utils/reportGenerator';
 
 export default function Dashboard({ data, startSimulation }) {
@@ -96,17 +97,17 @@ export default function Dashboard({ data, startSimulation }) {
                if(!p.hasLoan || !p.loans) return null;
                let monthly = 0;
                p.loans.forEach(loan => {
-                 monthly += loan.loanType === '本息攤還' ? calculatePMT(loan.amount, loan.rate, loan.years) : calculateInterestOnly(loan.amount, loan.rate);
+                 monthly += loan.loanType === '本息攤還' ? calculatePMT(loan.amount, loan.rate, loan.years, loan.months) : calculateInterestOnly(loan.amount, loan.rate);
                });
                return <li key={idx}>├─ 房貸({p.name}): -{monthly.toFixed(2)} 萬</li>;
             })}
             
             {data.assets.vehicles.map((v, idx) => {
                if(!v.hasLoan || !v.loan) return null;
-               return <li key={idx}>├─ 車貸({v.name}): -{calculatePMT(v.loan.amount, v.loan.rate, v.loan.years).toFixed(2)} 萬</li>;
+               return <li key={idx}>├─ 車貸({v.name}): -{calculatePMT(v.loan.amount, v.loan.rate, v.loan.years, v.loan.months).toFixed(2)} 萬</li>;
             })}
 
-            <li>├─ 信貸: -{data.liabilities.personalLoans.reduce((acc, curr) => acc + calculatePMT(curr.amount, curr.rate, curr.years), 0).toFixed(2)} 萬</li>
+            <li>├─ 信貸: -{data.liabilities.personalLoans.reduce((acc, curr) => acc + calculatePMT(curr.amount, curr.rate, curr.years, curr.months), 0).toFixed(2)} 萬</li>
             <li>├─ 生活支出: -{parseFloat(data.expenses.living || 0).toFixed(2)} 萬</li>
             
             <li style={{ borderTop: '1px solid #eee', marginTop: '8px', paddingTop: '8px', fontWeight: 'bold' }}>

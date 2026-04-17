@@ -17,7 +17,7 @@ export default function Step5Expenses({ data, assets, liabilities, updateData })
       if (prop.hasLoan && prop.loans) {
         prop.loans.forEach(loan => {
           if (loan.loanType === '本息攤還') {
-            mortgage += calculatePMT(loan.amount, loan.rate, loan.years);
+            mortgage += calculatePMT(loan.amount, loan.rate, loan.years, loan.months);
           } else {
             mortgage += calculateInterestOnly(loan.amount, loan.rate);
           }
@@ -28,13 +28,13 @@ export default function Step5Expenses({ data, assets, liabilities, updateData })
     // 車貸
     assets.vehicles.forEach(veh => {
       if (veh.hasLoan && veh.loan) {
-        carLoan += calculatePMT(veh.loan.amount, veh.loan.rate, veh.loan.years);
+        carLoan += calculatePMT(veh.loan.amount, veh.loan.rate, veh.loan.years, veh.loan.months);
       }
     });
 
     // 信貸
     liabilities.personalLoans.forEach(loan => {
-      personalLoan += calculatePMT(loan.amount, loan.rate, loan.years);
+      personalLoan += calculatePMT(loan.amount, loan.rate, loan.years, loan.months);
     });
 
     // 信用卡
@@ -51,7 +51,7 @@ export default function Step5Expenses({ data, assets, liabilities, updateData })
 
     // 其他貸款
     liabilities.other.forEach(loan => {
-      otherLoan += calculatePMT(loan.amount, loan.rate, loan.years);
+      otherLoan += calculatePMT(loan.amount, loan.rate, loan.years, loan.months);
     });
 
     const subTotal = mortgage + carLoan + personalLoan + creditCard + otherLoan;

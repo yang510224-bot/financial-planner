@@ -9,7 +9,7 @@ export default function Step3Liabilities({ data, updateData }) {
   const addPersonalLoan = () => {
     updateData('personalLoans', [
       ...data.personalLoans,
-      { id: Date.now(), title: `信貸${data.personalLoans.length + 1}`, amount: "", rate: "", years: "", startDate: "" }
+      { id: Date.now(), title: `信貸${data.personalLoans.length + 1}`, amount: "", rate: "", years: "", months: "", startDate: "" }
     ]);
   };
 
@@ -58,7 +58,7 @@ export default function Step3Liabilities({ data, updateData }) {
   const addOtherLoan = () => {
     updateData('other', [
       ...data.other,
-      { id: Date.now(), type: "親友借款", amount: "", rate: "", years: "", startDate: "" }
+      { id: Date.now(), type: "親友借款", amount: "", rate: "", years: "", months: "", startDate: "" }
     ]);
   };
 
@@ -103,13 +103,19 @@ export default function Step3Liabilities({ data, updateData }) {
               <label style={{ fontSize: '12px' }}>利率(%)</label>
               <input type="number" className="form-input" style={{ padding: '8px' }} value={loan.rate} onChange={e => updatePersonalLoan(idx, 'rate', e.target.value)} />
             </div>
-            <div style={{ flex: '1 1 30%' }}>
-              <label style={{ fontSize: '12px' }}>年限</label>
-              <input type="number" className="form-input" style={{ padding: '8px' }} value={loan.years} onChange={e => updatePersonalLoan(idx, 'years', e.target.value)} />
+            <div className="flex gap-1" style={{ flex: '1 1 30%' }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '12px' }}>還款年數</label>
+                <input type="number" className="form-input" style={{ padding: '8px' }} placeholder="年" value={loan.years} onChange={e => updatePersonalLoan(idx, 'years', e.target.value)} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '12px' }}>剩餘月數</label>
+                <input type="number" className="form-input" style={{ padding: '8px' }} placeholder="月" value={loan.months || ''} onChange={e => updatePersonalLoan(idx, 'months', e.target.value)} />
+              </div>
             </div>
           </div>
           <div style={{ marginTop: '8px', color: 'var(--danger-color)', fontWeight: 'bold' }}>
-            月付: {calculatePMT(loan.amount, loan.rate, loan.years).toFixed(4)} 萬
+            月付: {calculatePMT(loan.amount, loan.rate, loan.years, loan.months).toFixed(4)} 萬
           </div>
         </div>
       ))}
@@ -236,13 +242,19 @@ export default function Step3Liabilities({ data, updateData }) {
               <label style={{ fontSize: '12px' }}>利率(%)</label>
               <input type="number" className="form-input" style={{ padding: '8px' }} value={loan.rate} onChange={e => updateOtherLoan(idx, 'rate', e.target.value)} />
             </div>
-            <div style={{ flex: '1 1 30%' }}>
-              <label style={{ fontSize: '12px' }}>年限</label>
-              <input type="number" className="form-input" style={{ padding: '8px' }} value={loan.years} onChange={e => updateOtherLoan(idx, 'years', e.target.value)} />
+            <div className="flex gap-1" style={{ flex: '1 1 30%' }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '12px' }}>還款年數</label>
+                <input type="number" className="form-input" style={{ padding: '8px' }} placeholder="年" value={loan.years} onChange={e => updateOtherLoan(idx, 'years', e.target.value)} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '12px' }}>剩餘月數</label>
+                <input type="number" className="form-input" style={{ padding: '8px' }} placeholder="月" value={loan.months || ''} onChange={e => updateOtherLoan(idx, 'months', e.target.value)} />
+              </div>
             </div>
           </div>
           <div style={{ marginTop: '8px', color: 'var(--danger-color)', fontWeight: 'bold' }}>
-            月付: {calculatePMT(loan.amount, loan.rate, loan.years).toFixed(4)} 萬
+            月付: {calculatePMT(loan.amount, loan.rate, loan.years, loan.months).toFixed(4)} 萬
           </div>
         </div>
       ))}

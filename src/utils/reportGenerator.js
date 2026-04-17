@@ -51,7 +51,7 @@ export function generateFinancialReport(data) {
       p.loans.forEach(loan => {
         loanAmount += parseFloat(loan.amount || 0);
         if (loan.loanType === '本息攤還') {
-          mortgageExpenseTotal += calculatePMT(loan.amount, loan.rate, loan.years);
+          mortgageExpenseTotal += calculatePMT(loan.amount, loan.rate, loan.years, loan.months);
         } else {
           mortgageExpenseTotal += calculateInterestOnly(loan.amount, loan.rate);
         }
@@ -64,14 +64,14 @@ export function generateFinancialReport(data) {
   data.assets.vehicles.forEach(v => {
     if (v.hasLoan && v.loan) {
       r.liabilityTotal += parseFloat(v.loan.amount || 0);
-      vehicleExpenseTotal += calculatePMT(v.loan.amount, v.loan.rate, v.loan.years);
+      vehicleExpenseTotal += calculatePMT(v.loan.amount, v.loan.rate, v.loan.years, v.loan.months);
     }
   });
 
   let personalLoanExpenseTotal = 0;
   data.liabilities.personalLoans.forEach(l => {
     r.liabilityTotal += parseFloat(l.amount || 0);
-    personalLoanExpenseTotal += calculatePMT(l.amount, l.rate, l.years);
+    personalLoanExpenseTotal += calculatePMT(l.amount, l.rate, l.years, l.months);
   });
 
   let ccExpenseTotal = 0;
@@ -96,7 +96,7 @@ export function generateFinancialReport(data) {
   let otherLoanExpenseTotal = 0;
   data.liabilities.other.forEach(l => {
     r.liabilityTotal += parseFloat(l.amount || 0);
-    otherLoanExpenseTotal += calculatePMT(l.amount, l.rate, l.years);
+    otherLoanExpenseTotal += calculatePMT(l.amount, l.rate, l.years, l.months);
   });
 
   r.netAsset = r.assetTotal - r.liabilityTotal;
